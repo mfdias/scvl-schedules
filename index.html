@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+#myTable td.team1 {
+  border-right: none;
+}
+
+#myTable td.vs {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team2 {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.ref {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team_ref {
+  border-left: none;
+}
+
+#myTable td.week_row {
+  text-align: left;
+}
+
+#myTable td.open_play {
+  background-color: cyan;
+}
+
+#myTable td.rec {
+  background-color: #a8d8a7;
+}
+
+#myTable td.int {
+  background-color: #8ec6ea;
+}
+
+#myTable td.com {
+  background-color: #ffcdcd;
+}
+
+#myTable td.pow {
+  background-color: #fff2cb;
+}
+
+#myTable td.pow_plus {
+  background-color: #ffb367;
+}
+
+#myTable td.spacer_row {
+  background-color: #dcdcdc;
+}
+
+#myTable td.empty_row {
+  background-color: black;
+}
+</style>
+</head>
+<body>
+
+<h2>SCVL SPRING 2020 SEASON SCHEDULE</h2>
+
+<p>Select a team to filter the schedule</p>
+<select id="mySelect" onchange="myFunction()">
+  <option selected value="SHOWALL"> == ALL TEAMS == </option>
+  <option>REC1</option>
+  <option>REC2</option>
+  <option>REC3</option>
+  <option>REC4</option>
+  <option>REC5</option>
+</select>
+
+<br /><br />
+
+<table id="myTable">
+  <tr class="header">
+    <th colspna="1" style="width:10%;"></th>
+    <th colspan="5" style="width:15%;">Court 1</th>
+    <th colspan="5" style="width:15%;">Court 2</th>
+    <th colspan="5" style="width:15%;">Court 3</th>
+    <th colspan="5" style="width:15%;">Court 4</th>
+    <th colspan="5" style="width:15%;">Court 5</th>
+    <th colspan="5" style="width:15%;">Byes</th>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="31" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="30" class="week_row">Week 1: Jan 19</td>
+  </tr>
+  <tr>
+    <td>3:30 PM</td>
+
+    <td class="team1 com">COM1</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM12</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM14</td>
+
+    <td class="team1 com">COM7</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM17</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM8</td>
+
+    <td class="team1 pow_plus">P+1</td>
+    <td class="vs pow_plus">vs</td>
+    <td class="team2 pow_plus">P+2</td>
+    <td class="ref pow_plus">ref:</td>
+    <td class="team_ref pow_plus">P+5</td>
+
+    <td class="team1 com">COM9</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM16</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM11</td>
+
+    <td class="team1 rec">REC1</td>
+    <td class="vs rec">vs</td>
+    <td class="team2 rec">REC2</td>
+    <td class="ref rec">ref:</td>
+    <td class="team_ref rec">REC4</td>
+
+    <td colspan="5" class="rec">REC3</td>
+  </tr>
+  <tr>
+    <td>4:30 PM</td>
+
+    <td class="team1 com">COM11</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM14</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM12</td>
+
+    <td class="team1 com">COM2</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM3</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM13</td>
+
+    <td class="team1 pow_plus">P+3</td>
+    <td class="vs pow_plus">vs</td>
+    <td class="team2 pow_plus">P+5</td>
+    <td class="ref pow_plus">ref:</td>
+    <td class="team_ref pow_plus">P+2</td>
+
+    <td class="team1 com">COM8</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM10</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM16</td>
+
+    <td class="team1 rec">REC4</td>
+    <td class="vs rec">vs</td>
+    <td class="team2 rec">REC5</td>
+    <td class="ref rec">ref:</td>
+    <td class="team_ref rec">REC1</td>
+
+    <td colspan="5" class="int"></td>
+  </tr>
+  <tr>
+    <td>5:30 PM</td>
+
+    <td class="team1 com">COM5</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM13</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM2</td>
+
+    <td class="team1 com">COM4</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM6</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM10</td>
+
+    <td class="team1 pow_plus">P+4</td>
+    <td class="vs pow_plus">vs</td>
+    <td class="team2 pow_plus">P+6</td>
+    <td class="ref pow_plus">ref:</td>
+    <td class="team_ref pow_plus">P+3</td>
+
+    <td colspan="5" class="open_play">OPEN PLAY</td>
+
+    <td colspan="5" class="open_play">OPEN PLAY</td>
+
+    <td colspan="5" class="com">COM15</td>
+  </tr>
+  <tr>
+    <td>6:30 PM</td>
+
+    <td class="team1 pow">POW1</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW6</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW10</td>
+
+    <td class="team1 int">INT3</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT5</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT7</td>
+
+    <td class="team1 pow">POW2</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW8</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW9</td>
+
+    <td class="team1 int">INT4</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT10</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT1</td>
+
+    <td class="team1 int">INT6</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT8</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT9</td>
+
+    <td class="pow">POW5</td>
+    <td class="pow">POW7</td>
+    <td colspan="3" class="pow">POW11</td>
+  </tr>
+  <tr>
+    <td>6:30 PM</td>
+
+    <td class="team1 pow">POW3</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW4</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW6</td>
+
+    <td class="team1 int">INT1</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT2</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT5</td>
+
+    <td class="team1 pow">POW9</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW10</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW1</td>
+
+    <td class="team1 int">INT6</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT11</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT3</td>
+
+    <td class="team1 int">INT7</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT9</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT10</td>
+
+    <td colspan="5" class="pow_plus"></td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="31" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="30" class="week_row">Week 2: Jan 26</td>
+  </tr>
+  <tr>
+    <td>6:00 PM</td>
+
+    <td colspan="5" class="open_play">OPEN PLAY</td>
+
+    <td class="team1 pow">POW3</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW10</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW2</td>
+
+    <td class="team1 pow">POW7</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW11</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW5</td>
+
+    <td class="team1 int">INT3</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT11</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT9</td>
+
+    <td class="team1 int">INT1</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT4</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT6</td>
+
+    <td colspan="5" class="rec">REC2</td>
+  </tr>
+  <tr>
+    <td>7:00 PM</td>
+
+    <td class="team1 com">COM1</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM15</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM4</td>
+
+    <td class="team1 pow">POW2</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW5</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW3</td>
+
+    <td class="team1 pow">POW1</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">POW8</td>
+    <td class="ref pow">ref:</td>
+    <td class="team_ref pow">POW10</td>
+
+    <td class="team1 int">INT5</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT6</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT3</td>
+
+    <td class="team1 int">INT8</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">INT9</td>
+    <td class="ref int">ref:</td>
+    <td class="team_ref int">INT11</td>
+
+    <td class="int">INT2</td>
+    <td class="int">INT7</td>
+    <td colspan="3" class="int">INT10</td>
+  </tr>
+  <tr>
+    <td>8:00 PM</td>
+
+    <td class="team1 com">COM11</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM12</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM15</td>
+
+    <td class="team1 com">COM8</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM17</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM10</td>
+
+    <td class="team1 pow_plus">P+3</td>
+    <td class="vs pow_plus">vs</td>
+    <td class="team2 pow_plus">P+4</td>
+    <td class="ref pow_plus">ref:</td>
+    <td class="team_ref pow_plus">P+1</td>
+
+    <td class="team1 rec">REC1</td>
+    <td class="vs rec">vs</td>
+    <td class="team2 rec">REC3</td>
+    <td class="ref rec">ref:</td>
+    <td class="team_ref rec">REC5</td>
+
+    <td class="team1 com">COM4</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM14</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM5</td>
+
+    <td class="com">COM2</td>
+    <td class="com">COM9</td>
+    <td colspan="3" class="com">COM13</td>
+  </tr>
+  <tr>
+    <td>9:00 PM</td>
+
+    <td class="team1 com">COM5</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM6</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM14</td>
+
+    <td class="team1 com">COM3</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM10</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM11</td>
+
+    <td class="team1 pow_plus">P+1</td>
+    <td class="vs pow_plus">vs</td>
+    <td class="team2 pow_plus">P+6</td>
+    <td class="ref pow_plus">ref:</td>
+    <td class="team_ref pow_plus">P+4</td>
+
+    <td class="team1 rec">REC4</td>
+    <td class="vs rec">vs</td>
+    <td class="team2 rec">REC5</td>
+    <td class="ref rec">ref:</td>
+    <td class="team_ref rec">REC3</td>
+
+    <td class="team1 com">COM7</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">COM16</td>
+    <td class="ref com">ref:</td>
+    <td class="team_ref com">COM8</td>
+
+    <td class="pow">POW1</td>
+    <td class="pow">POW2</td>
+    <td colspan="3" class="pow">POW10</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td colspan="25" class="empty_row"></td>
+    <td colspan="2" class="pow_plus">P+3</td>
+    <td colspan="3" class="pow_plus">P+6</td>
+  </tr>
+</table>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td, i, j, txtValue, found, trClass;
+  input = document.getElementById("mySelect");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    // Always show this row if it's a week/spacer/header row or if "SHOWALL" is selected
+    trClass = tr[i].className;
+    if (filter == "SHOWALL" || trClass == "header" || trClass == "week" || trClass == "spacer") {
+      tr[i].style.display = "";
+      continue;
+    }
+    // Otherwise see if this row contains any mention of the selected team and hide/show accordingly
+    td = tr[i].getElementsByTagName("td");
+    for (j = 0; j < td.length; j++) {
+      if (td[j]) {
+        txtValue = td[j].textContent || td[j].innerText;
+        found = (txtValue.toUpperCase() == filter);
+        if (found) {
+          break;
+        }
+      }
+    }
+    if (found) {
+      tr[i].style.display = "";
+    } else {
+      tr[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
