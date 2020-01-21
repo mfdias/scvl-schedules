@@ -59,7 +59,7 @@ p {
   border-bottom: 1px solid #ddd;
 }
 
-#myTable tr.header, #myTable tr:hover {
+#myTable tr.header {
   background-color: #f1f1f1;
 }
 
@@ -88,6 +88,12 @@ p {
 
 #myTable td.week_row {
   text-align: left;
+}
+
+#myTable td.no_play_week {
+  text-align: center;
+  background-color: red;
+  font-weight: bold;
 }
 
 #myTable td.open_play {
@@ -544,6 +550,19 @@ p {
     <td colspan="2" class="bye pow_plus">P+5</td>
     <td colspan="1" class="empty_row"></td>
   </tr>
+
+  <tr class="spacer">
+    <td colspan="31" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td colspan="31" class="no_play_week">NO LEAGUE PLAY FEB 2: SUPER BOWL SUNDAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="31" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
 </table>
 
 <script>
