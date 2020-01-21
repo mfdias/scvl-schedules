@@ -2,20 +2,44 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <style>
 * {
   box-sizing: border-box;
 }
 
-#myInput {
-  background-image: url('/css/searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  width: 100%;
-  font-size: 16px;
-  padding: 12px 20px 12px 40px;
-  border: 1px solid #ddd;
-  margin-bottom: 12px;
+h2 {
+  text-align: center;
+  font-size: 32px;
+}
+
+p {
+  text-align: center;
+  font-size: 24px;
+}
+
+#mySelect {
+  font-size: 18px;
+}
+
+#mySelect option.rec {
+  background-color: #a8d8a7;
+}
+
+#mySelect option.int {
+  background-color: #8ec6ea;
+}
+
+#mySelect option.com {
+  background-color: #ffcdcd;
+}
+
+#mySelect option.pow {
+  background-color: #fff2cb;
+}
+
+#mySelect option.pow_plus {
+  background-color: #ffb367;
 }
 
 #myTable {
@@ -97,22 +121,87 @@
 #myTable td.empty_row {
   background-color: black;
 }
+
+#myTable td.bye {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.highlighted {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+#myTable td.hidden {
+  background-color: white;
+  color: white;
+}
+
+#myTable td.bye_hidden {
+  background-color: black;
+  color: black;
+}
 </style>
 </head>
 <body>
 
 <h2>SCVL SPRING 2020 SEASON SCHEDULE</h2>
 
-<p>Select a team to filter the schedule</p>
-<select id="mySelect" onchange="myFunction()">
-  <option selected value="SHOWALL"> == ALL TEAMS == </option>
-  <option>REC1</option>
-  <option>REC2</option>
-  <option>REC3</option>
-  <option>REC4</option>
-  <option>REC5</option>
+<p>Select a team to filter the schedule:&nbsp;&nbsp;
+<select id="mySelect" onchange="filterTeams()" autocomplete="off">
+  <option selected value="SHOWALL"> -- ALL TEAMS -- </option>
+  <option class="rec">REC1</option>
+  <option class="rec">REC2</option>
+  <option class="rec">REC3</option>
+  <option class="rec">REC4</option>
+  <option class="rec">REC5</option>
+  <option class="int">INT1</option>
+  <option class="int">INT2</option>
+  <option class="int">INT3</option>
+  <option class="int">INT4</option>
+  <option class="int">INT5</option>
+  <option class="int">INT6</option>
+  <option class="int">INT7</option>
+  <option class="int">INT8</option>
+  <option class="int">INT9</option>
+  <option class="int">INT10</option>
+  <option class="int">INT11</option>
+  <option class="com">COM1</option>
+  <option class="com">COM2</option>
+  <option class="com">COM3</option>
+  <option class="com">COM4</option>
+  <option class="com">COM5</option>
+  <option class="com">COM6</option>
+  <option class="com">COM7</option>
+  <option class="com">COM8</option>
+  <option class="com">COM9</option>
+  <option class="com">COM10</option>
+  <option class="com">COM11</option>
+  <option class="com">COM12</option>
+  <option class="com">COM13</option>
+  <option class="com">COM14</option>
+  <option class="com">COM15</option>
+  <option class="com">COM16</option>
+  <option class="com">COM17</option>
+  <option class="pow">POW1</option>
+  <option class="pow">POW2</option>
+  <option class="pow">POW3</option>
+  <option class="pow">POW4</option>
+  <option class="pow">POW5</option>
+  <option class="pow">POW6</option>
+  <option class="pow">POW7</option>
+  <option class="pow">POW8</option>
+  <option class="pow">POW9</option>
+  <option class="pow">POW10</option>
+  <option class="pow">POW11</option>
+  <option class="pow_plus">P+1</option>
+  <option class="pow_plus">P+2</option>
+  <option class="pow_plus">P+3</option>
+  <option class="pow_plus">P+4</option>
+  <option class="pow_plus">P+5</option>
+  <option class="pow_plus">P+6</option>
 </select>
-
+</p>
 <br /><br />
 
 <table id="myTable">
@@ -123,16 +212,15 @@
     <th colspan="5" style="width:15%;">Court 3</th>
     <th colspan="5" style="width:15%;">Court 4</th>
     <th colspan="5" style="width:15%;">Court 5</th>
-    <th colspan="5" style="width:15%;">Byes</th>
   </tr>
 
   <tr class="spacer">
-    <td colspan="31" class="spacer_row"><div style="height: 20px;"></div></td>
+    <td colspan="26" class="spacer_row"><div style="height: 20px;"></div></td>
   </tr>
 
   <tr class="week">
     <td></td>
-    <td colspan="30" class="week_row">Week 1: Jan 19</td>
+    <td colspan="25" class="week_row">Week 1: Jan 19</td>
   </tr>
   <tr>
     <td>3:30 PM</td>
@@ -166,8 +254,6 @@
     <td class="team2 rec">REC2</td>
     <td class="ref rec">ref:</td>
     <td class="team_ref rec">REC4</td>
-
-    <td colspan="5" class="rec">REC3</td>
   </tr>
   <tr>
     <td>4:30 PM</td>
@@ -201,8 +287,6 @@
     <td class="team2 rec">REC5</td>
     <td class="ref rec">ref:</td>
     <td class="team_ref rec">REC1</td>
-
-    <td colspan="5" class="int"></td>
   </tr>
   <tr>
     <td>5:30 PM</td>
@@ -229,7 +313,6 @@
 
     <td colspan="5" class="open_play">OPEN PLAY</td>
 
-    <td colspan="5" class="com">COM15</td>
   </tr>
   <tr>
     <td>6:30 PM</td>
@@ -264,12 +347,9 @@
     <td class="ref int">ref:</td>
     <td class="team_ref int">INT9</td>
 
-    <td class="pow">POW5</td>
-    <td class="pow">POW7</td>
-    <td colspan="3" class="pow">POW11</td>
   </tr>
   <tr>
-    <td>6:30 PM</td>
+    <td>7:30 PM</td>
 
     <td class="team1 pow">POW3</td>
     <td class="vs pow">vs</td>
@@ -301,7 +381,15 @@
     <td class="ref int">ref:</td>
     <td class="team_ref int">INT10</td>
 
-    <td colspan="5" class="pow_plus"></td>
+  </tr>
+  <tr>
+    <td>Bye Week</td>
+    <td colspan="2" class="bye rec">REC3</td>
+    <td colspan="2" class="bye com">COM15</td>
+    <td colspan="2" class="bye pow">POW5</td>
+    <td colspan="2" class="bye pow">POW7</td>
+    <td colspan="2" class="bye pow">POW11</td>
+    <td colspan="15" class="empty_row"></td>
   </tr>
 
   <tr class="spacer">
@@ -340,8 +428,6 @@
     <td class="team2 int">INT4</td>
     <td class="ref int">ref:</td>
     <td class="team_ref int">INT6</td>
-
-    <td colspan="5" class="rec">REC2</td>
   </tr>
   <tr>
     <td>7:00 PM</td>
@@ -375,10 +461,6 @@
     <td class="team2 int">INT9</td>
     <td class="ref int">ref:</td>
     <td class="team_ref int">INT11</td>
-
-    <td class="int">INT2</td>
-    <td class="int">INT7</td>
-    <td colspan="3" class="int">INT10</td>
   </tr>
   <tr>
     <td>8:00 PM</td>
@@ -412,10 +494,6 @@
     <td class="team2 com">COM14</td>
     <td class="ref com">ref:</td>
     <td class="team_ref com">COM5</td>
-
-    <td class="com">COM2</td>
-    <td class="com">COM9</td>
-    <td colspan="3" class="com">COM13</td>
   </tr>
   <tr>
     <td>9:00 PM</td>
@@ -449,50 +527,121 @@
     <td class="team2 com">COM16</td>
     <td class="ref com">ref:</td>
     <td class="team_ref com">COM8</td>
-
-    <td class="pow">POW1</td>
-    <td class="pow">POW2</td>
-    <td colspan="3" class="pow">POW10</td>
   </tr>
   <tr>
-    <td></td>
-    <td colspan="25" class="empty_row"></td>
-    <td colspan="2" class="pow_plus">P+3</td>
-    <td colspan="3" class="pow_plus">P+6</td>
+    <td>Bye Week</td>
+    <td colspan="2" class="bye rec">REC2</td>
+    <td colspan="2" class="bye int">INT2</td>
+    <td colspan="2" class="bye int">INT7</td>
+    <td colspan="2" class="bye int">INT10</td>
+    <td colspan="2" class="bye com">COM2</td>
+    <td colspan="2" class="bye com">COM9</td>
+    <td colspan="2" class="bye com">COM13</td>
+    <td colspan="2" class="bye pow">POW4</td>
+    <td colspan="2" class="bye pow">POW6</td>
+    <td colspan="2" class="bye pow">POW9</td>
+    <td colspan="2" class="bye pow_plus">P+2</td>
+    <td colspan="2" class="bye pow_plus">P+5</td>
+    <td colspan="1" class="empty_row"></td>
   </tr>
 </table>
 
 <script>
-function myFunction() {
-  var input, filter, table, tr, td, i, j, txtValue, found, trClass;
+function filterTeams() {
+  var input, filter, table, tr;
   input = document.getElementById("mySelect");
   filter = input.value.toUpperCase();
   table = document.getElementById("myTable");
   tr = table.getElementsByTagName("tr");
 
-  for (i = 0; i < tr.length; i++) {
-    // Always show this row if it's a week/spacer/header row or if "SHOWALL" is selected
-    trClass = tr[i].className;
-    if (filter == "SHOWALL" || trClass == "header" || trClass == "week" || trClass == "spacer") {
-      tr[i].style.display = "";
+  // First step is to unhide/unhighlight all rows/cols to start from a clean slate
+  for (let row = 0; row < tr.length; row++) {
+    tr[row].style.display = "";
+    let td = tr[row].getElementsByTagName("td");
+    for (let col = 0; col < td.length; col++) {
+	  if (td[col].classList.contains("highlighted")) {
+	    td[col].classList.remove("highlighted");
+      }
+	  if (td[col].classList.contains("hidden")) {
+	    td[col].classList.remove("hidden");
+	  }
+	  if (td[col].classList.contains("bye_hidden")) {
+	    td[col].classList.remove("bye_hidden");
+	  }
+    }
+  }
+
+  // If the filter is set to SHOWALL then we have nothing else to do
+  if (filter == "SHOWALL") {
+    return;
+  }
+
+  // Next lets iterate through the rows again to see what needs to be done
+  for (let row = 0; row < tr.length; row++) {
+    // Skip this row if it's a week/spacer/header row
+    let trClass = tr[row].className;
+    if (trClass == "header" || trClass == "week" || trClass == "spacer") {
       continue;
     }
-    // Otherwise see if this row contains any mention of the selected team and hide/show accordingly
-    td = tr[i].getElementsByTagName("td");
-    for (j = 0; j < td.length; j++) {
-      if (td[j]) {
-        txtValue = td[j].textContent || td[j].innerText;
-        found = (txtValue.toUpperCase() == filter);
-        if (found) {
-          break;
-        }
-      }
-    }
-    if (found) {
-      tr[i].style.display = "";
-    } else {
-      tr[i].style.display = "none";
-    }
+
+    // Otherwise see if this row contains any mention of the selected filter
+	// For regular rows, we also need to keep track of what surrounding cols were in the same court
+	let matchingCols = [];
+	let displayCols = [];
+    let td = tr[row].getElementsByTagName("td");
+	for (let col = 1; col < td.length; col++) {
+	  if (td[col]) {
+	    if (td[col].textContent.toUpperCase() == filter) {
+		  matchingCols.push(col);
+		  displayCols.push(col);
+		  // Since we found a match, we also need to check for other court cols
+		  if (td[col].classList.contains("team1")) {
+		    // Matching team 1 so next 4 cols are on same court
+			displayCols.push(col + 1, col + 2, col + 3, col + 4);
+		  } else {
+		    if (td[col].classList.contains("team2")) {
+			  // Matching team 2 so prev 2 and next 2 cols are on same court
+			  displayCols.push(col + -2, col - 1, col + 1, col + 2);
+			}
+			else {
+			  if (td[col].classList.contains("team_ref")) {
+			    // Matching ref team so prev 4 cols are on same court
+				displayCols.push(col - 4, col - 3, col - 2, col - 1);
+			  }
+			}
+		  }
+		}
+	  }
+	}
+
+    // If there were no matching columns found we can just hide this row and continue
+	if (matchingCols.length == 0) {
+	  tr[row].style.display = "none";
+	} else {
+	  // If there were matches, we need to handle it differently for bye week rows vs regular rows
+	  if (td[0].textContent == "Bye Week") {
+	    // For bye week rows, we can just highlight matching cols and hide others
+		for (let col = 1; col < td.length; col++) {
+		  if (matchingCols.includes(col)) {
+		    td[col].classList.add("highlighted");
+		  } else {
+		    td[col].classList.add("bye_hidden");
+		  }
+		}
+	  } else {
+	    // For regular rows we highlight the match and hide anything not in displayOnlyCols
+		for (let col = 1; col < td.length; col++) {
+          if (!displayCols.includes(col)) {
+			td[col].classList.add("hidden");
+		  } else {
+		    // If it's the actual match, also highlight the col
+			if (matchingCols.includes(col)) {
+			  td[col].classList.add("highlighted");
+			}
+		  }
+		}
+	  }
+	}
   }
 }
 </script>
