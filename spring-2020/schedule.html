@@ -2178,6 +2178,10 @@ function filterTeams() {
 		    // If it's the actual match, also highlight the col
 			if (matchingCols.includes(col)) {
 			  td[col].classList.add("highlighted");
+			  // If it's a ref team, also highlight the ref column
+			  if (td[col].classList.contains("team_ref")) {
+			    td[col - 1].classList.add("highlighted");
+			  }
 			}
 		  }
 		}
