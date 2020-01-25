@@ -18,27 +18,74 @@ p {
   font-size: 24px;
 }
 
-#mySelect {
+label {
+  font-size: 20px;
+}
+
+.optional_filters_div {
+  margin: auto;
+  width: 40%;
+  border: 3px solid gray;
+  padding: 5px;
+  display: none;
+  clear: both;
+}
+
+.optional_filters_sub_div_left {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  padding-left: 35px;
+}
+
+.optional_filters_sub_div_right {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  padding-left: 15px;
+}
+
+.open_play {
+  background-color: #00ffff;
+}
+
+.skills_clinic {
+  background-color: #ff00ff;;
+}
+
+input[type="checkbox"] {
+  zoom: 1.5;
+  vertical-align: bottom;
+  margin: 0;
+}
+
+p.optional_filters_hedaer {
+  text-align: center;
+  font-size: 24px;
+  text-decoration: underline;
+}
+
+#firstTeamSelect, #secondTeamSelect {
   font-size: 18px;
 }
 
-#mySelect option.rec {
+#firstTeamSelect option.rec, #secondTeamSelect option.rec {
   background-color: #a8d8a7;
 }
 
-#mySelect option.int {
+#firstTeamSelect option.int, #secondTeamSelect option.int  {
   background-color: #8ec6ea;
 }
 
-#mySelect option.com {
+#firstTeamSelect option.com, #secondTeamSelect option.com  {
   background-color: #ffcdcd;
 }
 
-#mySelect option.pow {
+#firstTeamSelect option.pow, #secondTeamSelect option.pow  {
   background-color: #fff2cb;
 }
 
-#mySelect option.pow_plus {
+#firstTeamSelect option.pow_plus, #secondTeamSelect option.pow_plus  {
   background-color: #ffb367;
 }
 
@@ -142,8 +189,8 @@ p {
 }
 
 #myTable td.bye {
-  border-right: none;
-  border-left: none;
+  border-right: 5px solid;
+  border-left: 5px solid;
   border-top: 5px solid;
   border-bottom: 5px solid;
 }
@@ -178,60 +225,77 @@ p {
 <h2>SCVL SPRING 2020 SEASON SCHEDULE</h2>
 
 <p>Select a team to filter the schedule:&nbsp;&nbsp;
-<select id="mySelect" onchange="filterTeams()" autocomplete="off">
-  <option selected value="SHOWALL"> -- ALL TEAMS -- </option>
-  <option class="rec">REC1</option>
-  <option class="rec">REC2</option>
-  <option class="rec">REC3</option>
-  <option class="rec">REC4</option>
-  <option class="rec">REC5</option>
-  <option class="int">INT1</option>
-  <option class="int">INT2</option>
-  <option class="int">INT3</option>
-  <option class="int">INT4</option>
-  <option class="int">INT5</option>
-  <option class="int">INT6</option>
-  <option class="int">INT7</option>
-  <option class="int">INT8</option>
-  <option class="int">INT9</option>
-  <option class="int">INT10</option>
-  <option class="int">INT11</option>
-  <option class="com">COM1</option>
-  <option class="com">COM2</option>
-  <option class="com">COM3</option>
-  <option class="com">COM4</option>
-  <option class="com">COM5</option>
-  <option class="com">COM6</option>
-  <option class="com">COM7</option>
-  <option class="com">COM8</option>
-  <option class="com">COM9</option>
-  <option class="com">COM10</option>
-  <option class="com">COM11</option>
-  <option class="com">COM12</option>
-  <option class="com">COM13</option>
-  <option class="com">COM14</option>
-  <option class="com">COM15</option>
-  <option class="com">COM16</option>
-  <option class="com">COM17</option>
-  <option class="pow">POW1</option>
-  <option class="pow">POW2</option>
-  <option class="pow">POW3</option>
-  <option class="pow">POW4</option>
-  <option class="pow">POW5</option>
-  <option class="pow">POW6</option>
-  <option class="pow">POW7</option>
-  <option class="pow">POW8</option>
-  <option class="pow">POW9</option>
-  <option class="pow">POW10</option>
-  <option class="pow">POW11</option>
-  <option class="pow_plus">P+1</option>
-  <option class="pow_plus">P+2</option>
-  <option class="pow_plus">P+3</option>
-  <option class="pow_plus">P+4</option>
-  <option class="pow_plus">P+5</option>
-  <option class="pow_plus">P+6</option>
-</select>
+  <select id="firstTeamSelect" onchange="handleFirstTeamSelectChange()" autocomplete="off">
+    <option selected value="SHOWALL"> -- ALL TEAMS -- </option>
+    <option class="rec">REC1</option>
+    <option class="rec">REC2</option>
+    <option class="rec">REC3</option>
+    <option class="rec">REC4</option>
+    <option class="rec">REC5</option>
+    <option class="int">INT1</option>
+    <option class="int">INT2</option>
+    <option class="int">INT3</option>
+    <option class="int">INT4</option>
+    <option class="int">INT5</option>
+    <option class="int">INT6</option>
+    <option class="int">INT7</option>
+    <option class="int">INT8</option>
+    <option class="int">INT9</option>
+    <option class="int">INT10</option>
+    <option class="int">INT11</option>
+    <option class="com">COM1</option>
+    <option class="com">COM2</option>
+    <option class="com">COM3</option>
+    <option class="com">COM4</option>
+    <option class="com">COM5</option>
+    <option class="com">COM6</option>
+    <option class="com">COM7</option>
+    <option class="com">COM8</option>
+    <option class="com">COM9</option>
+    <option class="com">COM10</option>
+    <option class="com">COM11</option>
+    <option class="com">COM12</option>
+    <option class="com">COM13</option>
+    <option class="com">COM14</option>
+    <option class="com">COM15</option>
+    <option class="com">COM16</option>
+    <option class="com">COM17</option>
+    <option class="pow">POW1</option>
+    <option class="pow">POW2</option>
+    <option class="pow">POW3</option>
+    <option class="pow">POW4</option>
+    <option class="pow">POW5</option>
+    <option class="pow">POW6</option>
+    <option class="pow">POW7</option>
+    <option class="pow">POW8</option>
+    <option class="pow">POW9</option>
+    <option class="pow">POW10</option>
+    <option class="pow">POW11</option>
+    <option class="pow_plus">P+1</option>
+    <option class="pow_plus">P+2</option>
+    <option class="pow_plus">P+3</option>
+    <option class="pow_plus">P+4</option>
+    <option class="pow_plus">P+5</option>
+    <option class="pow_plus">P+6</option>
+  </select>
 </p>
+<div class="optional_filters_div" id="optional_filters_div">
+  <p class="optional_filters_hedaer">Optional Filters:</p>
+  <div class="optional_filters_sub_div_left">
+    <p>
+      <label for="secondTeamSelect">Select Second Team:&nbsp;&nbsp;</label>
+      <select id="secondTeamSelect" onchange="handleOptionalFiltersChange()" autocomplete="off" disabled>
+	  </select>
+	</p>
+  </div>
+  <div class="optional_filters_sub_div_right">
+    <label for="showOpenPlay">Show <span class="open_play">OPEN PLAY</span> slots:&nbsp;&nbsp;</label>
+    <input id="showOpenPlay" type="checkbox" onchange="handleOptionalFiltersChange()" disabled>
+	<br /><br />
+    <label for="showSkillsClinic">Show <span class="skills_clinic">SKILLS CLINIC</span> slots:&nbsp;&nbsp;</label>
+    <input id="showSkillsClinic" type="checkbox" onchange="handleOptionalFiltersChange()" disabled>
+  </div>
+</div>
 <br /><br />
 
 <table id="myTable">
@@ -2101,106 +2165,217 @@ p {
 <br /><br /><br />
 
 <script>
-function filterTeams() {
-  var input, filter, table, tr;
-  input = document.getElementById("mySelect");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
+function getLowerLevel(teamName) {
+  const levelBelowMapping = {
+    "INT": "REC",
+    "COM": "INT",
+    "POW": "COM",
+    "P+": "POW"
+  };
+  const numTeamsPerLevel = {
+    "REC": 5,
+    "INT": 11,
+    "COM": 17,
+    "POW": 11,
+    "P+": 6
+  };
+  const levelClsNames = {
+    "REC": "rec",
+    "INT": "int",
+    "COM": "com",
+    "POW": "pow",
+    "P+": "pow_plus"
+  };
+  for (const level in levelBelowMapping) {
+    if (teamName.startsWith(level)) {
+      const lowerLevel = levelBelowMapping[level];
+      const numTeams = numTeamsPerLevel[lowerLevel];
+      let lowerLevelTeams = [];
+      for (let i = 1; i <= numTeams; i++) {
+        lowerLevelTeams.push(lowerLevel + i.toString());
+      }
+      return {"teams": lowerLevelTeams, "clsName": levelClsNames[lowerLevel]};
+    }
+  }
+  // If we reached the end of the for loop without finding anything, return empty list
+  return {"teams": [], "clsName": ""};
+}
 
-  // First step is to unhide/unhighlight all rows/cols to start from a clean slate
+function showAll() {
+  // Get the schedule table element and it's rows
+  let table = document.getElementById("myTable");
+  let tr = table.getElementsByTagName("tr");
+  // Reset all hidden/highlighted rows/cols to make sure everything is shown
   for (let row = 0; row < tr.length; row++) {
     tr[row].style.display = "";
     let td = tr[row].getElementsByTagName("td");
     for (let col = 0; col < td.length; col++) {
-	  if (td[col].classList.contains("highlighted")) {
-	    td[col].classList.remove("highlighted");
+      if (td[col].classList.contains("highlighted")) {
+        td[col].classList.remove("highlighted");
       }
-	  if (td[col].classList.contains("hidden")) {
-	    td[col].classList.remove("hidden");
-	  }
-	  if (td[col].classList.contains("bye_hidden")) {
-	    td[col].classList.remove("bye_hidden");
-	  }
+      if (td[col].classList.contains("hidden")) {
+        td[col].classList.remove("hidden");
+      }
+      if (td[col].classList.contains("bye_hidden")) {
+        td[col].classList.remove("bye_hidden");
+      }
     }
   }
+}
 
-  // If the filter is set to SHOWALL then we have nothing else to do
-  if (filter == "SHOWALL") {
+// NOTE: We assume all of the params passed in are defined!
+function filterSchedule(firstTeam, secondTeam, showOpenPlay, showSkillsClinic) {
+  // If SHOWALL is selected, just call showAll and exit early
+  if (firstTeam == "SHOWALL") {
+    showAll();
     return;
   }
 
-  // Next lets iterate through the rows again to see what needs to be done
+  // Get the schedule table element and it's rows and iterate over them
+  let table = document.getElementById("myTable");
+  let tr = table.getElementsByTagName("tr");
   for (let row = 0; row < tr.length; row++) {
-    // Skip this row if it's a week/spacer/header row
-    let trClass = tr[row].className;
+    // First check for row types that are always shown
+    const trClass = tr[row].className;
     if (trClass == "header" || trClass == "week" || trClass == "spacer") {
+      // Since we never hide these rows, we don't need to unhide them either... just skip
       continue;
     }
-
-    // Otherwise see if this row contains any mention of the selected filter
-	// For regular rows, we also need to keep track of what surrounding cols were in the same court
-	let matchingCols = [];
-	let displayCols = [];
+    // Next see if this row contains any mention of the selected filters
+    // For regular rows, we also need to keep track of what surrounding cols were in the same court
+    let highlightCols = [];
+    let displayCols = [];
     let td = tr[row].getElementsByTagName("td");
-	for (let col = 1; col < td.length; col++) {
-	  if (td[col]) {
-	    if (td[col].textContent.toUpperCase() == filter) {
-		  matchingCols.push(col);
-		  displayCols.push(col);
-		  // Since we found a match, we also need to check for other court cols
-		  if (td[col].classList.contains("team1")) {
-		    // Matching team 1 so next 4 cols are on same court
-			displayCols.push(col + 1, col + 2, col + 3, col + 4);
-		  } else {
-		    if (td[col].classList.contains("team2")) {
-			  // Matching team 2 so prev 2 and next 2 cols are on same court
-			  displayCols.push(col + -2, col - 1, col + 1, col + 2);
-			}
-			else {
-			  if (td[col].classList.contains("team_ref")) {
-			    // Matching ref team so prev 4 cols are on same court
-				displayCols.push(col - 4, col - 3, col - 2, col - 1);
-			  }
-			}
-		  }
-		}
-	  }
-	}
-
-    // If there were no matching columns found we can just hide this row and continue
-	if (matchingCols.length == 0) {
-	  tr[row].style.display = "none";
-	} else {
-	  // If there were matches, we need to handle it differently for bye week rows vs regular rows
-	  if (td[0].textContent == "Bye Week") {
-	    // For bye week rows, we can just highlight matching cols and hide others
-		for (let col = 1; col < td.length; col++) {
-		  if (matchingCols.includes(col)) {
-		    td[col].classList.add("highlighted");
-		  } else {
-		    td[col].classList.add("bye_hidden");
-		  }
-		}
-	  } else {
-	    // For regular rows we highlight the match and hide anything not in displayOnlyCols
-		for (let col = 1; col < td.length; col++) {
-          if (!displayCols.includes(col)) {
-			td[col].classList.add("hidden");
-		  } else {
-		    // If it's the actual match, also highlight the col
-			if (matchingCols.includes(col)) {
-			  td[col].classList.add("highlighted");
-			  // If it's a ref team, also highlight the ref column
-			  if (td[col].classList.contains("team_ref")) {
-			    td[col - 1].classList.add("highlighted");
-			  }
-			}
-		  }
-		}
-	  }
-	}
+    // NOTE: We ignore column 0 (time column) because it's always shown and never highlighted
+    for (let col = 1; col < td.length; col++) {
+      if (td[col]) {
+        // We only care about team/bye/open_play/skills_clinic columns so ignore the rest
+        const clsList = td[col].classList;
+        const tdValue = td[col].textContent.toUpperCase();
+        if (clsList.contains("team1")) {
+          if (tdValue == firstTeam || tdValue == secondTeam) {
+            highlightCols.push(col);
+            displayCols.push(col, col + 1, col + 2, col + 3, col + 4);
+          }
+        } else if (clsList.contains("team2")) {
+          if (tdValue == firstTeam || tdValue == secondTeam) {
+            highlightCols.push(col);
+            displayCols.push(col + -2, col - 1, col, col + 1, col + 2);
+          }
+        } else if (clsList.contains("team_ref")) {
+          if (tdValue == firstTeam || tdValue == secondTeam) {
+            highlightCols.push(col - 1, col);
+            displayCols.push(col - 4, col - 3, col + -2, col - 1, col);
+          }
+        } else if (clsList.contains("bye")) {
+          if (tdValue == firstTeam || tdValue == secondTeam) {
+            highlightCols.push(col);
+            displayCols.push(col);
+          }
+        } else {
+          // Lastly check for open play and skills clinic cols
+          if ((clsList.contains("open_play") && showOpenPlay) ||
+              (clsList.contains("skills_clinic") && showSkillsClinic)) {
+            displayCols.push(col);
+          }
+        }
+      }
+    }
+    // If displayCols is empty we can just hide the whole row
+    if (displayCols.length == 0) {
+      tr[row].style.display = "none";
+    } else {
+      // Make sure this row is unhidden in case it was previously hidden
+      tr[row].style.display = "";
+      // Now we can set or unset the hidden/highlighted classes for each col
+      // NOTE: We ignore column 0 (time column) because it's always shown and never highlighted
+      for (let col = 1; col < td.length; col++) {
+        // Highlight column if necessary
+        if (highlightCols.includes(col)) {
+          if (!td[col].classList.contains("highlighted")) {
+            td[col].classList.add("highlighted");
+          }
+        } else if (td[col].classList.contains("highlighted")) {
+          // Remove highlighting if previously highlighted
+          td[col].classList.remove("highlighted");
+        }
+        // For hiding/displaying cols, we need to know if it's a bye week row
+        const isByeWeekRow = (td[0].textContent == "Bye Week");
+        const hiddenClsName = isByeWeekRow ? "bye_hidden" : "hidden";
+        if (displayCols.includes(col)) {
+          // Unhide this col if necessary
+          if (td[col].classList.contains(hiddenClsName)) {
+            td[col].classList.remove(hiddenClsName);
+          }
+        } else if (!td[col].classList.contains(hiddenClsName)) {
+          // Make sure this col is hidden
+          td[col].classList.add(hiddenClsName);
+        }
+      }
+    }
   }
+}
+
+function handleOptionalFiltersChange() {
+  // Get all of the filter values
+  const firstTeam = document.getElementById("firstTeamSelect").value;
+  const secondTeam = document.getElementById("secondTeamSelect").value;
+  const showOpenPlay = document.getElementById("showOpenPlay").checked;
+  const showSkillsClinic = document.getElementById("showSkillsClinic").checked;
+  return filterSchedule(firstTeam, secondTeam, showOpenPlay, showSkillsClinic);
+}
+
+function handleFirstTeamSelectChange() {
+  // First check what team was selected from the firstTeamSelect dropdown
+  const filteredTeam = document.getElementById("firstTeamSelect").value.toUpperCase();
+
+  // Get handles for all the optional filter elements that we need to control
+  let optionalFiltersDiv = document.getElementById("optional_filters_div");
+  let secondTeamSelect = document.getElementById("secondTeamSelect")
+  let showOpenPlay = document.getElementById("showOpenPlay");
+  let showSkillsClinic = document.getElementById("showSkillsClinic");
+
+  // Any change to the first team selection should reset second team selection options
+  while (secondTeamSelect.options.length) {
+    secondTeamSelect.remove(0);
+  }
+
+  // If the filter is set to SHOWALL disable optional filters and reset their values
+  if (filteredTeam == "SHOWALL") {
+    secondTeamSelect.disabled = true;
+    showOpenPlay.checked = false;
+    showOpenPlay.disabled = true;
+    showSkillsClinic.checked = false;
+    showSkillsClinic.disabled = true;
+    optionalFiltersDiv.style.display = "none";
+  } else {
+    // Enable optional filters
+    optionalFiltersDiv.style.display = "table";
+    showOpenPlay.disabled = false;
+    showSkillsClinic.disabled = false;
+    // Check if there are lower level teams to populate the second team selection drop down
+    const lowerLevel = getLowerLevel(filteredTeam);
+    // If there are no lower level teams, disable the selection
+    if (lowerLevel.teams.length == 0) {
+      secondTeamSelect.disabled = true;
+    } else {
+      secondTeamSelect.disabled = false;
+      // Populate select values for second team (first add default empty selection)
+      let empty_opt = document.createElement("option");
+      empty_opt.disabled = true;
+      empty_opt.value = "";
+      empty_opt.selected = true;
+      secondTeamSelect.add(empty_opt);
+      for (const team of lowerLevel.teams) {
+        let opt = document.createElement("option");
+        opt.value = opt.text = team;
+        opt.classList.add(lowerLevel.clsName);
+        secondTeamSelect.add(opt);
+      }
+    }
+  }
+  // Finally filter the schedule based on the first team selection
+  return filterSchedule(filteredTeam, "", showOpenPlay.checked, showSkillsClinic.checked);
 }
 </script>
 
