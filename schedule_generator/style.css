@@ -1,0 +1,223 @@
+* {
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  font-size: 32px;
+}
+
+p {
+  text-align: center;
+  font-size: 24px;
+}
+
+label {
+  font-size: 20px;
+}
+
+.optional_filters_div {
+  margin: auto;
+  width: 40%;
+  border: 3px solid gray;
+  padding: 5px;
+  display: none;
+  clear: both;
+}
+
+.optional_filters_sub_div_left {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  padding-left: 35px;
+}
+
+.optional_filters_sub_div_right {
+  float: left;
+  width: 50%;
+  padding: 5px;
+  padding-left: 15px;
+}
+
+.open_play {
+  background-color: #00ffff;
+}
+
+.skills_clinic {
+  background-color: #ff00ff;;
+}
+
+input[type="checkbox"] {
+  zoom: 1.5;
+  vertical-align: bottom;
+  margin: 0;
+}
+
+p.optional_filters_hedaer {
+  text-align: center;
+  font-size: 24px;
+  text-decoration: underline;
+}
+
+#firstTeamSelect, #secondTeamSelect {
+  font-size: 18px;
+}
+
+#firstTeamSelect option.rec, #secondTeamSelect option.rec {
+  background-color: #a8d8a7;
+}
+
+#firstTeamSelect option.int, #secondTeamSelect option.int  {
+  background-color: #8ec6ea;
+}
+
+#firstTeamSelect option.com, #secondTeamSelect option.com  {
+  background-color: #ffcdcd;
+}
+
+#firstTeamSelect option.pow, #secondTeamSelect option.pow  {
+  background-color: #fff2cb;
+}
+
+#firstTeamSelect option.pow_plus, #secondTeamSelect option.pow_plus  {
+  background-color: #ffb367;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header {
+  background-color: #f1f1f1;
+}
+
+#myTable td.team1 {
+  border-right: none;
+}
+
+#myTable td.vs {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team2 {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.ref {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team_ref {
+  border-left: none;
+}
+
+#myTable td.week_row {
+  text-align: left;
+}
+
+#myTable td.playoff_week {
+  background-color: black;
+  color: white;
+}
+
+#myTable td.no_play_week {
+  text-align: center;
+  background-color: red;
+  font-weight: bold;
+}
+
+#myTable td.open_play {
+  background-color: #00ffff;
+}
+
+#myTable td.skills_clinic {
+  background-color: #ff00ff;
+}
+
+#myTable td.rec {
+  background-color: #a8d8a7;
+}
+
+#myTable td.int {
+  background-color: #8ec6ea;
+}
+
+#myTable td.com {
+  background-color: #ffcdcd;
+}
+
+#myTable td.pow {
+  background-color: #fff2cb;
+}
+
+#myTable td.pow_plus {
+  background-color: #ffb367;
+}
+
+#myTable td.spacer_row {
+  background-color: #dcdcdc;
+}
+
+#myTable td.tba_row {
+  background-color: #dcdcdc;
+  font-weight: bold; 
+}
+
+#myTable td.empty_row {
+  background-color: black;
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+}
+
+#myTable td.bye {
+  border-right: 5px solid;
+  border-left: 5px solid;
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+}
+
+#myTable td.bye_week {
+  border-right: 5px solid;
+  border-left: 5px solid;
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+}
+
+#myTable td.highlighted {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+#myTable td.changed {
+  color: red;
+}
+
+#myTable td.hidden {
+  background-color: white;
+  color: white;
+}
+
+#myTable td.bye_hidden {
+  background-color: black;
+  color: black;
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+}
