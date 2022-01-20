@@ -219,6 +219,7 @@ class Schedule:
             for npw in self.no_play_weeks:
                 if npw['prev_week'] == prev_week_title:
                     self.add_no_play_week(outfile, npw['title'])
+                    self.add_spacer_row(outfile)
             prev_week_title = week_title
             # Write the week title row
             week_sked = self.weekly_skeds[week_title]
@@ -252,7 +253,7 @@ class Schedule:
                             team_div = self.get_team_division(game.team_1)
                             outfile.write('    <td class="team1 ' + team_div + '">' + game.team_1 + '</td>\n')
                             outfile.write('    <td class="vs ' + team_div + '">vs</td>\n')
-                            outfile.write('    <td class="team2 ' + team_div + '">' + game.team_1 + '</td>\n')
+                            outfile.write('    <td class="team2 ' + team_div + '">' + game.team_2 + '</td>\n')
                             outfile.write('    <td class="ref ' + team_div + '">ref:</td>\n')
                             outfile.write('    <td class="team_ref ' + team_div + '">' + game.ref_team + '</td>\n\n')
                 # Add the row showing bye teams for this week
