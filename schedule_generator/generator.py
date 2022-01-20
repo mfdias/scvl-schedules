@@ -108,13 +108,186 @@ class Schedule:
                             self.update_team_counts(opponents[0])
                             self.update_team_counts(opponents[1])
                         time_slot_sked.time_slot_games[game_info.court_name] = game_info
+                    self.weekly_skeds[curr_week].time_slots.append(time_slot_title)
                     self.weekly_skeds[curr_week].time_slot_skeds[time_slot_title] = time_slot_sked
                     # check for any bye week teams in this row
                     if row[self.bye_week_col_num]:
                         bye_teams = [x.strip() for x in row[self.bye_week_col_num].split()]
                         self.weekly_skeds[curr_week].bye_week_teams.extend(bye_teams)
 
-    def generate_html(self, filename):
+    def add_spacer_row(self, outfile):
+        outfile.write('  <tr class="spacer">\n')
+        outfile.write('    <td colspan="26" class="spacer_row"><div style="height: 20px;"></div></td>\n')
+        outfile.write('  </tr>\n\n')
+
+    def write_court_headers(self, outfile):
+        outfile.write('  <tr class="header">\n')
+        outfile.write('    <th colspna="1" style="width:7%;"></th>\n')
+        court_col_width_pct = 75 / len(self.court_titles)
+        for court_title in self.court_titles:
+            outfile.write('    <th colspan="5" style="width:' + str(court_col_width_pct) + '%;">' + court_title + '</th>\n')
+        outfile.write('  </tr>\n\n')
+
+    def get_team_division(self, team_name):
+        if team_name.startswith('REC'):
+            return 'rec'
+        elif team_name.startswith('INT'):
+            return 'int'
+        elif team_name.startswith('COM'):
+            return 'com'
+        elif team_name.startswith('POW'):
+            return 'pow'
+        elif team_name.startswith('P+'):
+            return 'pow_plus'
+        else:
+            return 'unknown'
+
+    def add_no_play_week(self, outfile, no_play_week_title):
+        outfile.write('  <tr class="week">\n')
+        outfile.write('    <td colspan="26" class="no_play_week">' + no_play_week_title + '</td>\n')
+        outfile.write('  </tr>\n\n')
+
+    def generate_html(self, outfile):
+        # write initial header lines
+        outfile.write('<!DOCTYPE html>\n')
+        outfile.write('<html>\n')
+        outfile.write('<head>\n')
+        outfile.write('<meta name="viewport" content="width=device-width, initial-scale=1">\n')
+        outfile.write('<meta http-equiv="content-type" content="text/html; charset=utf-8" />\n')
+        outfile.write('<style>\n')
+        # Add styles from styles.css
+        with open('style.css', 'r') as css_file:
+            styles = css_file.read()
+        outfile.write(styles + '\n')
+        # write the remainder of the header lines
+        outfile.write('</style>\n')
+        outfile.write('</head>\n')
+
+        # Next we start the html body
+        outfile.write('<body>\n\n')
+
+        # Start by writing the title
+        outfile.write('<h2>' + self.title + '</h2>\n\n')
+
+        # Next we create the drop down for team selection
+        outfile.write('<p>Select a team to filter the schedule:&nbsp;&nbsp;\n')
+        outfile.write('  <select id="firstTeamSelect" onchange="handleFirstTeamSelectChange()" autocomplete="off">\n')
+        outfile.write('    <option selected value="SHOWALL"> -- ALL TEAMS -- </option>\n')
+        for i in range(1, self.num_rec_teams + 1):
+            outfile.write('    <option class="rec">REC' + str(i) + '</option>\n')
+        for i in range(1, self.num_int_teams + 1):
+            outfile.write('    <option class="int">INT' + str(i) + '</option>\n')
+        for i in range(1, self.num_com_teams + 1):
+            outfile.write('    <option class="com">COM' + str(i) + '</option>\n')
+        for i in range(1, self.num_pow_teams + 1):
+            outfile.write('    <option class="pow">POW' + str(i) + '</option>\n')
+        for i in range(1, self.num_pow_plus_teams + 1):
+            outfile.write('    <option class="pow_plus">P+' + str(i) + '</option>\n')
+        outfile.write('  </select>\n')
+        outfile.write('</p>\n')
+
+        # Next we create the optional filters div
+        outfile.write('<div class="optional_filters_div" id="optional_filters_div">\n')
+        outfile.write('  <p class="optional_filters_hedaer">Optional Filters:</p>\n')
+        outfile.write('  <div class="optional_filters_sub_div_left">\n')
+        outfile.write('    <p>\n')
+        outfile.write('      <label for="secondTeamSelect">Select Second Team:&nbsp;&nbsp;</label>\n')
+        outfile.write('      <select id="secondTeamSelect" onchange="handleOptionalFiltersChange()" autocomplete="off" disabled>\n')
+        outfile.write('	     </select>\n')
+        outfile.write('    </p>\n')
+        outfile.write('  </div>\n')
+        outfile.write('  <div class="optional_filters_sub_div_right">\n')
+        outfile.write('    <label for="showOpenPlay">Show <span class="open_play">OPEN PLAY</span> slots:&nbsp;&nbsp;</label>\n')
+        outfile.write('    <input id="showOpenPlay" type="checkbox" onchange="handleOptionalFiltersChange()" disabled>\n')
+        outfile.write('    <br /><br />\n')
+        outfile.write('    <label for="showSkillsClinic">Show <span class="skills_clinic">SKILLS CLINIC</span> slots:&nbsp;&nbsp;</label>\n')
+        outfile.write('    <input id="showSkillsClinic" type="checkbox" onchange="handleOptionalFiltersChange()" disabled>\n')
+        outfile.write('  </div>\n')
+        outfile.write('</div>\n')
+        outfile.write('<br /><br />\n\n')
+
+        # Next is the table for the actual schedule
+        outfile.write('<table id="myTable">\n')
+        # First table row is the court titles
+        self.write_court_headers(outfile)
+        self.add_spacer_row(outfile)
+
+        # Now we can write the rows for each week in the schedule
+        prev_week_title = ''
+        for week_title in self.week_titles:
+            # First check to see if we need to write one of the no-play week rows
+            for npw in self.no_play_weeks:
+                if npw['prev_week'] == prev_week_title:
+                    self.add_no_play_week(outfile, npw['title'])
+            prev_week_title = week_title
+            # Write the week title row
+            week_sked = self.weekly_skeds[week_title]
+            outfile.write('  <tr class="week">\n')
+            outfile.write('    <td></td>\n')
+            if week_sked.is_tba:
+                outfile.write('    <td colspan="5" class="playoff_week">' + week_title + '</td>\n')
+                outfile.write('	   <td colspan="20"></td>\n')
+            else:
+                outfile.write('    <td colspan="25" class="week_row">' + week_title + '</td>\n')
+            outfile.write('  </tr>\n')
+            # Write rows for each timeslot in this week's schedule
+            if week_sked.is_tba:
+                self.write_court_headers(outfile)
+                outfile.write('  <tr class="spacer">\n')
+                outfile.write('    <td colspan="26" class="tba_row">SCHEDULE TO BE ANNOUNCED SOON</div></td>\n')
+                outfile.write('  </tr>\n\n')
+            else:
+                # Write row for each time slot in the schedule
+                for time_slot in week_sked.time_slots:
+                    outfile.write('  <tr>\n')
+                    outfile.write('    <td class="time">' + time_slot + '</td>\n\n')
+                    ts_sked = week_sked.time_slot_skeds[time_slot]
+                    for court in self.court_titles:
+                        game = ts_sked.time_slot_games[court]
+                        if game.is_skills_clinic:
+                            outfile.write('    <td colspan="5" class="skills_clinic">SKILLS CLINIC</td>\n\n')
+                        elif game.is_open_play:
+                            outfile.write('    <td colspan="5" class="open_play">OPEN PLAY</td>\n\n')
+                        else:
+                            team_div = self.get_team_division(game.team_1)
+                            outfile.write('    <td class="team1 ' + team_div + '">' + game.team_1 + '</td>\n')
+                            outfile.write('    <td class="vs ' + team_div + '">vs</td>\n')
+                            outfile.write('    <td class="team2 ' + team_div + '">' + game.team_1 + '</td>\n')
+                            outfile.write('    <td class="ref ' + team_div + '">ref:</td>\n')
+                            outfile.write('    <td class="team_ref ' + team_div + '">' + game.ref_team + '</td>\n\n')
+                # Add the row showing bye teams for this week
+                outfile.write('  <tr>\n')
+                outfile.write('    <td class="bye_week">Bye Week</td>\n')
+                for bye_team in week_sked.bye_week_teams:
+                    team_div = self.get_team_division(bye_team)
+                    outfile.write('    <td colspan="2" class="bye ' + team_div + '">' + bye_team + '</td>\n')
+                remaining_colspan = 25 - len(week_sked.bye_week_teams)
+                outfile.write('    <td colspan="' + str(remaining_colspan) + '" class="empty_row"></td>\n')
+                outfile.write('  </tr>\n\n')
+            # Add a spacer row after each week
+            self.add_spacer_row(outfile)
+
+        # Finally we can close the table and add the scripts
+        outfile.write('</table>\n')
+        outfile.write('<br /><br /><br />\n\n')
+        outfile.write('<script>\n')
+
+        # We need to update the team counts before writing the script
+        with open('filter_funcs.js', 'r') as js_file:
+            js_lines = js_file.readlines()
+        js_lines[2] = '    "REC": ' + str(self.num_rec_teams) + ',\n'
+        js_lines[3] = '    "INT": ' + str(self.num_int_teams) + ',\n'
+        js_lines[4] = '    "COM": ' + str(self.num_com_teams) + ',\n'
+        js_lines[5] = '    "POW": ' + str(self.num_pow_teams) + ',\n'
+        js_lines[6] = '    "P+": ' + str(self.num_pow_plus_teams) + '\n'
+        outfile.writelines(js_lines)
+
+        # Close out the html tags and we are done!
+        outfile.write('</script>\n\n')
+        outfile.write('</body>\n')
+        outfile.write('</html>\n')
+
+    def print_extracted_sked(self):
         print('TITLE: ', self.title)
         print('Courts: ', self.court_titles)
         print('Weeks: ', self.week_titles)
@@ -155,8 +328,9 @@ def main():
         sked.parse_rows(csv_reader)
 
     # Generate the filterable html schedule
-    html_filename = 'index.html'
-    sked.generate_html(html_filename)
+    html_filename = 'generated_schedule.html'
+    with open(html_filename, 'w') as htmlfile:
+        sked.generate_html(htmlfile)
 
 
 if __name__ == "__main__":
