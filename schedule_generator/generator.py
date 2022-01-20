@@ -233,12 +233,17 @@ class Schedule:
             outfile.write('  </tr>\n')
             # Write rows for each timeslot in this week's schedule
             if week_sked.is_tba:
+                # First check if there is a "no-play-week" title for this TBA week and add that here
+                for npw in self.no_play_weeks:
+                    if npw['prev_week'] == week_title:
+                        self.add_no_play_week(outfile, npw['title'])
+                        self.add_spacer_row(outfile)
+                        prev_week_title = ''  # reset prev week to avoid writing this twice
                 self.write_court_headers(outfile)
                 outfile.write('  <tr class="spacer">\n')
                 outfile.write('    <td colspan="26" class="tba_row">SCHEDULE TO BE ANNOUNCED SOON</div></td>\n')
                 outfile.write('  </tr>\n\n')
             else:
-                # Write row for each time slot in the schedule
                 for time_slot in week_sked.time_slots:
                     outfile.write('  <tr>\n')
                     outfile.write('    <td class="time">' + time_slot + '</td>\n\n')
@@ -265,8 +270,8 @@ class Schedule:
                 remaining_colspan = 25 - len(week_sked.bye_week_teams)
                 outfile.write('    <td colspan="' + str(remaining_colspan) + '" class="empty_row"></td>\n')
                 outfile.write('  </tr>\n\n')
-            # Add a spacer row after each week
-            self.add_spacer_row(outfile)
+                # Add a spacer row after each week
+                self.add_spacer_row(outfile)
 
         # Finally we can close the table and add the scripts
         outfile.write('</table>\n')
@@ -325,7 +330,7 @@ def main():
 
     # Open the file and collect info about the schedule to be generated
     with open(args.filename, newline='') as csvfile:
-        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='|')
+        csv_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
         sked.parse_rows(csv_reader)
 
     # Generate the filterable html schedule
