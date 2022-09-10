@@ -8,8 +8,10 @@ class Schedule:
     class SingleGameInfo:
         def __init__(self):
             self.is_skills_clinic = False
+            self.skills_clinic_title = ''
             self.is_open_play = False
-            court_name = ''
+            self.open_play_title = ''
+            self.court_name = ''
             self.team_1 = ''
             self.team_2 = ''
             self.ref_team = ''
@@ -61,13 +63,13 @@ class Schedule:
             if team_number > self.num_pow_plus_teams:
                 self.num_pow_plus_teams = team_number
 
-    def parse_rows(self, csv_reader):
+    def parse_rows(self, csv_reader, start_col, debug):
         curr_week = ''
         for row in csv_reader:
             if any(row): # ignore empty spacer rows
-                if not row[0]: # this is a header row
-                    if not row[1]: # This is a week title row
-                        curr_week = row[2]
+                if not row[start_col]: # this is a header row
+                    if not row[start_col + 1]: # This is a week title row
+                        curr_week = row[start_col + 2]
                         self.week_titles.append(curr_week)
                         self.weekly_skeds[curr_week] = self.SingleWeekSchedule()
                         # Find the column number for bye weeks (if not yet found)
@@ -75,38 +77,48 @@ class Schedule:
                             for idx in range(len(row)):
                                 if row[idx] == 'BYE':
                                     self.bye_week_col_num = idx + 1
-                    elif row[1].startswith('SCVL'): # This is the overall title row (only one at the start)
-                        self.title = row[1]
+                    elif row[start_col + 1].startswith('SCVL'): # This is the overall title row (only one at the start)
+                        self.title = row[start_col + 1]
                         continue
-                    elif row[1].startswith('Court'): # Row for list of courts (can appear multiple times)
+                    elif row[start_col + 1].startswith('Court'): # Row for list of courts (can appear multiple times)
                         self.court_titles = list(filter(None, row))
-                    elif row[1].startswith('SCHEDULE'): # Row for weeks where schedule is still TBA (to be announced)
+                    elif row[start_col + 1].startswith('SCHEDULE'): # Row for weeks where schedule is still TBA (to be announced)
                         self.weekly_skeds[curr_week].is_tba = True
                     else: # This is a no-play week (or playoff week, but we treat both the same)
-                        self.no_play_weeks.append({'title': row[1], 'prev_week': curr_week})
+                        self.no_play_weeks.append({'title': row[start_col + 1], 'prev_week': curr_week})
                 else: # this is a time slot row
                     # Extract the schedule for this time slot on this week
-                    time_slot_title = row[0]
+                    time_slot_title = row[start_col]
                     time_slot_sked = self.SingleTimeSlotSchedule()
                     time_slot_sked.time_slot_title = time_slot_title
+                    if debug:
+                        print(curr_week, ' ', time_slot_title)
                     for court_idx in range(len(self.court_titles)):
                         game_info = self.SingleGameInfo()
                         game_info.court_name = self.court_titles[court_idx]
-                        court_col_num = (court_idx * 3) + 2
+                        court_col_num = (court_idx * 3) + start_col + 2
                         # Check if this court is open play or skills clinic for this time slot
-                        if row[court_col_num].startswith('SKILLS CLINIC'):
+                        if 'SKILLS CLINIC' in row[court_col_num]:
+                            if debug:
+                                print(self.court_titles[court_idx], ': ', row[court_col_num])
                             game_info.is_skills_clinic = True
-                        elif row[court_col_num].startswith('OPEN PLAY'):
+                            game_info.skills_clinic_title = row[court_col_num]
+                        elif 'OPEN PLAY' in row[court_col_num]:
+                            if debug:
+                                print(self.court_titles[court_idx], ': ', row[court_col_num])
                             game_info.is_open_play = True
+                            game_info.open_play_title = row[court_col_num]
                         else:
                             opponents = row[court_col_num].split(' v ')
-                            game_info.team_1 = opponents[0]
-                            game_info.team_2 = opponents[1]
+                            if debug:
+                                print(self.court_titles[court_idx], ': ', opponents)
+                            game_info.team_1 = opponents[0].replace('*', '')
+                            game_info.team_2 = opponents[1].replace('*', '')
                             ref_str = row[court_col_num + 1]
                             game_info.ref_team = ref_str[5:]
                             # Use opponents from each game to determine total number of teams in each division
-                            self.update_team_counts(opponents[0])
-                            self.update_team_counts(opponents[1])
+                            self.update_team_counts(game_info.team_1)
+                            self.update_team_counts(game_info.team_2)
                         time_slot_sked.time_slot_games[game_info.court_name] = game_info
                     self.weekly_skeds[curr_week].time_slots.append(time_slot_title)
                     self.weekly_skeds[curr_week].time_slot_skeds[time_slot_title] = time_slot_sked
@@ -251,9 +263,9 @@ class Schedule:
                     for court in self.court_titles:
                         game = ts_sked.time_slot_games[court]
                         if game.is_skills_clinic:
-                            outfile.write('    <td colspan="5" class="skills_clinic">SKILLS CLINIC</td>\n\n')
+                            outfile.write('    <td colspan="5" class="skills_clinic">' + game.skills_clinic_title + '</td>\n\n')
                         elif game.is_open_play:
-                            outfile.write('    <td colspan="5" class="open_play">OPEN PLAY</td>\n\n')
+                            outfile.write('    <td colspan="5" class="open_play">' + game.open_play_title + '</td>\n\n')
                         else:
                             team_div = self.get_team_division(game.team_1)
                             outfile.write('    <td class="team1 ' + team_div + '">' + game.team_1 + '</td>\n')
@@ -312,9 +324,9 @@ class Schedule:
                 print(ts)
                 for ct, game in ts_sked.time_slot_games.items():
                     if game.is_skills_clinic:
-                        print(ct, ': SKILLS CLINIC')
+                        print(ct, ': ', game.skills_clinic_title)
                     elif game.is_open_play:
-                        print(ct, ': OPEN PLAY')
+                        print(ct, ': ', game.open_play_title)
                     else:
                         print(ct, ': ', game.team_1, ' vs ', game.team_2, ' | ref: ', game.ref_team)
 
@@ -323,6 +335,8 @@ def main():
     # Get the input csv filename from the command line
     parser = argparse.ArgumentParser()
     parser.add_argument('filename')
+    parser.add_argument('-s', '--start-col', help='first column in csv that is not blank', default=0, type=int)
+    parser.add_argument('-d', '--debug', help='print debugging output', action='store_true')
     args = parser.parse_args()
 
     # Create a schedule object to use for reading the input csv and generating the schedule html
@@ -331,7 +345,11 @@ def main():
     # Open the file and collect info about the schedule to be generated
     with open(args.filename, newline='') as csvfile:
         csv_reader = csv.reader(csvfile, delimiter=',', quotechar='"')
-        sked.parse_rows(csv_reader)
+        sked.parse_rows(csv_reader, args.start_col, args.debug)
+
+    # Print extracted schedule if debug output enabled
+    if args.debug:
+        sked.print_extracted_sked()
 
     # Generate the filterable html schedule
     html_filename = 'generated_schedule.html'
