@@ -23,8 +23,20 @@ The script will create (or overwrite if exists) a file called "generated_schedul
 load this file in a browser locally to view the result and if it looks good you can upload it to
 your web hosting folder!
 
+By default the script assumes that there are no blank columns at the left of the sheet. If you have
+a csv where the first column or columns are blank, you can use the `--start-col` (or `-s`) flag to
+indicate which column is the first non-empty column. You can also enable debugging output using the
+`--debug` (or `-d`) flag to help figure out what's going on if there are errors.
+
+Here is an example for generating the fall 2022 schedule ignoring first column and with debug on:
+```
+PS C:\Users\mfdias\Documents\GitHub\scvl-schedules\schedule_generator> py.exe .\generator.py -s 1 -d '.\sample_csvs\Live Postings - Fall 2022 Season Schedule.csv'
+```
+
 # Other notes
 
 - This script has only been tested in windows but it should work on linux too.
-- Currently has only been tested using a downloaded CSV of the fall 2021 schedule. May need further adjustments if the schedule format changes.
+- Currently has only been tested using a downloaded CSV of the fall 2021 and fall 2022 schedules. May need further adjustments if the schedule format changes.
+
+# License
 - Feel free to copy/modify/use this code as you wish (no licensing or usage restrictions apply).
