@@ -103,11 +103,15 @@ class Schedule:
                                 print(self.court_titles[court_idx], ': ', row[court_col_num])
                             game_info.is_skills_clinic = True
                             game_info.skills_clinic_title = row[court_col_num]
+                            if row[court_col_num + 1]:
+                                game_info.skills_clinic_title += ' (' + row[court_col_num + 1] + ')'
                         elif 'OPEN PLAY' in row[court_col_num]:
                             if debug:
                                 print(self.court_titles[court_idx], ': ', row[court_col_num])
                             game_info.is_open_play = True
                             game_info.open_play_title = row[court_col_num]
+                            if row[court_col_num + 1]:
+                                game_info.open_play_title += ' (' + row[court_col_num + 1] + ')'
                         else:
                             opponents = row[court_col_num].split(' v ')
                             if debug:
@@ -273,16 +277,24 @@ class Schedule:
                             outfile.write('    <td class="team2 ' + team_div + '">' + game.team_2 + '</td>\n')
                             outfile.write('    <td class="ref ' + team_div + '">ref:</td>\n')
                             outfile.write('    <td class="team_ref ' + team_div + '">' + game.ref_team + '</td>\n\n')
-                # Add the row showing bye teams for this week
-                outfile.write('  <tr>\n')
-                outfile.write('    <td class="bye_week">Bye Week</td>\n')
-                for bye_team in week_sked.bye_week_teams:
-                    team_div = self.get_team_division(bye_team)
-                    outfile.write('    <td colspan="2" class="bye ' + team_div + '">' + bye_team + '</td>\n')
-                remaining_colspan = 25 - len(week_sked.bye_week_teams)
-                outfile.write('    <td colspan="' + str(remaining_colspan) + '" class="empty_row"></td>\n')
-                outfile.write('  </tr>\n\n')
+                # Add the row showing bye teams for this week (if there are any)
+                if len(week_sked.bye_week_teams) > 0:
+                    outfile.write('  <tr>\n')
+                    outfile.write('    <td class="bye_week">Bye Week</td>\n')
+                    for bye_team in week_sked.bye_week_teams:
+                        team_div = self.get_team_division(bye_team)
+                        outfile.write('    <td colspan="2" class="bye ' + team_div + '">' + bye_team + '</td>\n')
+                    remaining_colspan = 25 - len(week_sked.bye_week_teams)
+                    outfile.write('    <td colspan="' + str(remaining_colspan) + '" class="empty_row"></td>\n')
+                    outfile.write('  </tr>\n\n')
                 # Add a spacer row after each week
+                if len(week_sked.time_slots) > 0:
+                    self.add_spacer_row(outfile)
+
+        # Check if there is one last no-play-week at the end
+        for npw in self.no_play_weeks:
+            if npw['prev_week'] == prev_week_title:
+                self.add_no_play_week(outfile, npw['title'])
                 self.add_spacer_row(outfile)
 
         # Finally we can close the table and add the scripts
