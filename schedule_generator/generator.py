@@ -334,6 +334,7 @@ class Schedule:
             print(wk, ' | BYE TEAMS: ', wk_sked.bye_week_teams)
             for ts, ts_sked in wk_sked.time_slot_skeds.items():
                 print(ts)
+                time_slot_teams = set()
                 for ct, game in ts_sked.time_slot_games.items():
                     if game.is_skills_clinic:
                         print(ct, ': ', game.skills_clinic_title)
@@ -341,6 +342,18 @@ class Schedule:
                         print(ct, ': ', game.open_play_title)
                     else:
                         print(ct, ': ', game.team_1, ' vs ', game.team_2, ' | ref: ', game.ref_team)
+                        if game.team_1 in time_slot_teams:
+                            print('######## CONFLICT DETECTED: Duplicate team: ', game.team_1)
+                        else:
+                            time_slot_teams.add(game.team_1)
+                        if game.team_2 in time_slot_teams:
+                            print('######## CONFLICT DETECTED: Duplicate team: ', game.team_2)
+                        else:
+                            time_slot_teams.add(game.team_2)
+                        if game.ref_team in time_slot_teams:
+                            print('######## CONFLICT DETECTED: Duplicate team: ', game.ref_team)
+                        else:
+                            time_slot_teams.add(game.ref_team)
 
 
 def main():
