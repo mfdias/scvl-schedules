@@ -27,6 +27,7 @@ class Schedule:
             self.time_slots = []
             self.time_slot_skeds = {}
             self.bye_week_teams = []
+            self.start_time_changed = False
 
     def __init__(self):
         self.title = 'Unknown Season'
@@ -40,6 +41,7 @@ class Schedule:
         self.weekly_skeds = {}
         self.no_play_weeks = []
         self.bye_week_col_num = -1
+        self.usual_start_time = "3:30 PM"
 
     def update_team_counts(self, team_name):
         if team_name.startswith('REC'):
@@ -72,6 +74,9 @@ class Schedule:
                         curr_week = row[start_col + 2]
                         self.week_titles.append(curr_week)
                         self.weekly_skeds[curr_week] = self.SingleWeekSchedule()
+                        # Check if this is a regular week or a special week (schedule tba)
+                        if not curr_week.startswith('Week'):
+                            self.weekly_skeds[curr_week].is_tba = True
                         # Find the column number for bye weeks (if not yet found)
                         if self.bye_week_col_num == -1:
                             for idx in range(len(row)):
@@ -91,6 +96,10 @@ class Schedule:
                     time_slot_title = row[start_col]
                     time_slot_sked = self.SingleTimeSlotSchedule()
                     time_slot_sked.time_slot_title = time_slot_title
+                    # If this is the first time slot for the current week schedule, check if the start time is changed
+                    if len(self.weekly_skeds[curr_week].time_slots) == 0:
+                        if time_slot_title != self.usual_start_time:
+                            self.weekly_skeds[curr_week].start_time_changed = True
                     if debug:
                         print(curr_week, ' ', time_slot_title)
                     for court_idx in range(len(self.court_titles)):
@@ -145,15 +154,15 @@ class Schedule:
         outfile.write('  </tr>\n\n')
 
     def get_team_division(self, team_name):
-        if team_name.startswith('REC'):
+        if 'REC' in team_name:
             return 'rec'
-        elif team_name.startswith('INT'):
+        elif 'INT' in team_name:
             return 'int'
-        elif team_name.startswith('COM'):
+        elif 'COM' in team_name:
             return 'com'
-        elif team_name.startswith('POW'):
+        elif 'POW' in team_name:
             return 'pow'
-        elif team_name.startswith('P+'):
+        elif 'P+' in team_name:
             return 'pow_plus'
         else:
             return 'unknown'
@@ -262,7 +271,10 @@ class Schedule:
             else:
                 for time_slot in week_sked.time_slots:
                     outfile.write('  <tr>\n')
-                    outfile.write('    <td class="time">' + time_slot + '</td>\n\n')
+                    if week_sked.start_time_changed:
+                        outfile.write('    <td class="changed">' + time_slot + '</td>\n\n')
+                    else:
+                        outfile.write('    <td class="time">' + time_slot + '</td>\n\n')
                     ts_sked = week_sked.time_slot_skeds[time_slot]
                     for court in self.court_titles:
                         game = ts_sked.time_slot_games[court]
