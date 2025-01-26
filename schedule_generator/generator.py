@@ -342,8 +342,25 @@ class Schedule:
         print('  POW: ', self.num_pow_teams)
         print('  P+: ', self.num_pow_plus_teams)
         print('=======================================')
+
+        # Create a set of all team names to use for verifying bye teams list
+        all_teams = set()
+        for i in range(1, self.num_rec_teams + 1):
+            all_teams.add(f"REC{i}")
+        for i in range(1, self.num_int_teams + 1):
+            all_teams.add(f"INT{i}")
+        for i in range(1, self.num_com_teams + 1):
+            all_teams.add(f"COM{i}")
+        for i in range(1, self.num_pow_teams + 1):
+            all_teams.add(f"POW{i}")
+        for i in range(1, self.num_pow_plus_teams + 1):
+            all_teams.add(f"P+{i}")
+            
         for wk, wk_sked in self.weekly_skeds.items():
             print(wk, ' | BYE TEAMS: ', wk_sked.bye_week_teams)
+            wk_teams = set()
+            wk_playing_teams = set()
+            wk_reffing_teams = set()
             for ts, ts_sked in wk_sked.time_slot_skeds.items():
                 print(ts)
                 time_slot_teams = set()
@@ -354,6 +371,9 @@ class Schedule:
                         print(ct, ': ', game.open_play_title)
                     else:
                         print(ct, ': ', game.team_1, ' vs ', game.team_2, ' | ref: ', game.ref_team)
+                        wk_teams.update([game.team_1, game.team_2, game.ref_team])
+                        wk_playing_teams.update([game.team_1, game.team_2])
+                        wk_reffing_teams.add(game.ref_team)
                         if game.team_1 in time_slot_teams:
                             print('######## CONFLICT DETECTED: Duplicate team: ', game.team_1)
                         else:
@@ -366,6 +386,20 @@ class Schedule:
                             print('######## CONFLICT DETECTED: Duplicate team: ', game.ref_team)
                         else:
                             time_slot_teams.add(game.ref_team)
+            if len(wk_sked.time_slot_skeds) > 0:
+                # verify that the bye teams are correct
+                calculated_wk_bye_teams = all_teams - wk_teams
+                if calculated_wk_bye_teams != set(wk_sked.bye_week_teams):
+                    missing_bye_week_teams = calculated_wk_bye_teams - set(wk_sked.bye_week_teams)
+                    extra_bye_week_teams = set(wk_sked.bye_week_teams) - calculated_wk_bye_teams
+                    print('######## INVALID BYE WEEK TEAMS DETECTED! Extra teams: ', extra_bye_week_teams, ' | Missing teams: ', missing_bye_week_teams)
+                # check if any teams are only reffing and not playing
+                wk_reffing_only_teams = set()
+                for reffing_team in wk_reffing_teams:
+                    if reffing_team not in wk_playing_teams:
+                        wk_reffing_only_teams.add(reffing_team)
+                if len(wk_reffing_only_teams) > 0:
+                    print('######## FOUND TEAMS ONLY REFFING: ', wk_reffing_only_teams)
 
 
 def main():
