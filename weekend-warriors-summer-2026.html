@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<style>
+* {
+  box-sizing: border-box;
+}
+
+h2 {
+  text-align: center;
+  font-size: 32px;
+}
+
+p {
+  text-align: center;
+  font-size: 24px;
+}
+
+label {
+  font-size: 20px;
+}
+
+.optional_filters_div {
+  margin: auto;
+  width: 40%;
+  border: 3px solid gray;
+  padding: 5px;
+  display: table;
+  clear: both;
+  text-align: center;
+}
+
+.open_play {
+  background-color: #00ffff;
+}
+
+input[type="checkbox"] {
+  zoom: 1.5;
+  vertical-align: bottom;
+  margin: 0;
+}
+
+#firstTeamSelect {
+  font-size: 18px;
+}
+
+#firstTeamSelect option.int {
+  background-color: #8ec6ea;
+}
+
+#firstTeamSelect option.com {
+  background-color: #ffcdcd;
+}
+
+#firstTeamSelect option.pow {
+  background-color: #fff2cb;
+}
+
+#myTable {
+  border-collapse: collapse;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: center;
+  padding: 5px;
+  border: 1px solid black;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header {
+  background-color: #f1f1f1;
+}
+
+#myTable td.team1 {
+  border-right: none;
+}
+
+#myTable td.vs {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team2 {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.ref {
+  border-right: none;
+  border-left: none;
+}
+
+#myTable td.team_ref {
+  border-left: none;
+}
+
+#myTable td.week_row {
+  text-align: left;
+}
+
+#myTable td.playoff_week {
+  background-color: black;
+  color: white;
+}
+
+#myTable td.no_play_week {
+  text-align: center;
+  background-color: #C1F0C8;
+  font-weight: bold;
+}
+
+#myTable td.maybe_play_week {
+  text-align: center;
+  background-color: #FFC000;
+  font-weight: bold;
+}
+
+#myTable td.open_play {
+  background-color: #00ffff;
+}
+
+#myTable td.skills_clinic {
+  background-color: #ff00ff;
+}
+
+#myTable td.int {
+  background-color: #8ec6ea;
+}
+
+#myTable td.com {
+  background-color: #ffcdcd;
+}
+
+#myTable td.pow {
+  background-color: #fff2cb;
+}
+
+#myTable td.spacer_row {
+  background-color: #dcdcdc;
+}
+
+#myTable td.tba_row {
+  background-color: #dcdcdc;
+  font-weight: bold; 
+}
+
+#myTable td.empty_row {
+  background-color: black;
+  border-top: 5px solid;
+  border-bottom: 5px solid;
+}
+
+#myTable td.highlighted {
+  background-color: yellow;
+  font-weight: bold;
+}
+
+#myTable td.changed {
+  color: red;
+}
+
+#myTable td.hidden {
+  background-color: white;
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<h2>WEEKEND WARRIORS SUMMER 2026 SCHEDULE</h2>
+
+<p>Select a team to filter the schedule:&nbsp;&nbsp;
+  <select id="firstTeamSelect" onchange="handleFirstTeamSelectChange()" autocomplete="off">
+    <option selected value="SHOWALL"> -- ALL TEAMS -- </option>
+    <option class="int">C1 Team Jimmy</option>
+    <option class="int">C2 Notorious DIG</option>
+    <option class="int">C3 Pitt Reputation 🐍</option>
+    <option class="int">C4 Saturday Night Sets</option>
+    <option class="int">C5 The Ceebees ♥</option>
+    <option class="com">B1 Schweaty Balls</option>
+    <option class="com">B2 Bridge City Trolls</option>
+    <option class="com">B3 YellowJackets</option>
+    <option class="com">B4 Junk Co</option>
+    <option class="com">B5 Team Lucas</option>
+    <option class="pow">A1 Hot Ass Lucas</option>
+    <option class="pow">A2 Meat Reveal</option>
+    <option class="pow">A3 Freebirds</option>
+    <option class="pow">A4 TBDeez Nutz</option>
+  </select>
+</p>
+<div class="optional_filters_div" id="optional_filters_div">
+  <label for="showOpenPlay">Show <span class="open_play">OPEN PLAY</span> slots:&nbsp;&nbsp;</label>
+  <input id="showOpenPlay" type="checkbox" onchange="handleOptionalFiltersChange()" checked>
+</div>
+<br /><br />
+
+<table id="myTable">
+  <tr class="header">
+    <th colspna="1" style="width:7%;"></th>
+    <th colspan="3" style="width:15.0%;">Court 1</th>
+    <th colspan="3" style="width:15.0%;">Court 2</th>
+    <th colspan="3" style="width:15.0%;">Court 3</th>
+    <th colspan="3" style="width:15.0%;">Court 4</th>
+    <th colspan="3" style="width:15.0%;">Court 5</th>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 1: May 29th (Friday)</td>
+  </tr>
+  <tr>
+    <td class="time">7:15 PM</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A2 Meat Reveal</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B2 Bridge City Trolls</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C2 Notorious DIG</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+  </tr>
+  <tr>
+    <td class="time">8:15 PM</td>
+
+    <td class="team1 pow">A3 Freebirds</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 com">B5 Team Lucas</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B1 Schweaty Balls</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 int">C5 The Ceebees ♥</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C1 Team Jimmy</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+  </tr>
+  <tr>
+    <td class="time">9:15 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td class="team1 com">B4 Junk Co</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C4 Saturday Night Sets</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 2: June 5th (Friday)</td>
+  </tr>
+  <tr>
+    <td class="time">7:15 PM</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A3 Freebirds</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+  </tr>
+  <tr>
+    <td class="time">8:15 PM</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B5 Team Lucas</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B2 Bridge City Trolls</td>
+
+    <td class="team1 pow">A2 Meat Reveal</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 int">C5 The Ceebees ♥</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C2 Notorious DIG</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+  </tr>
+  <tr>
+    <td class="time">9:15 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 3: June 13th (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 pow">A2 Meat Reveal</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A3 Freebirds</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B1 Schweaty Balls</td>
+
+    <td class="team1 com">B4 Junk Co</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C1 Team Jimmy</td>
+
+    <td class="team1 int">C4 Saturday Night Sets</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 4: June 20th (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A2 Meat Reveal</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 com">B4 Junk Co</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B1 Schweaty Balls</td>
+
+    <td class="team1 pow">A3 Freebirds</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 int">C4 Saturday Night Sets</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C1 Team Jimmy</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td colspan="16" class="no_play_week">BREAK *** June 27th *** (Jujutsu Tourmanent)</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td colspan="16" class="maybe_play_week">BREAK ***July 4th Holiday*** I HAVE THE COURTS THIS WEEK -- OPEN PICKUP ANYONE???</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 5: July 11th (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A3 Freebirds</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 pow">A2 Meat Reveal</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B2 Bridge City Trolls</td>
+
+    <td class="team1 com">B4 Junk Co</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C2 Notorious DIG</td>
+
+    <td class="team1 int">C4 Saturday Night Sets</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 6: July 18th (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+	
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B3 YellowJackets</td>
+
+    <td class="team1 pow">A2 Meat Reveal</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A3 Freebirds</td>
+
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C3 Pitt Reputation 🐍</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+  
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 7: July 25th (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 com">B2 Bridge City Trolls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A2 Meat Reveal</td>
+	
+    <td class="team1 int">C2 Notorious DIG</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 com">B4 Junk Co</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B1 Schweaty Balls</td>
+
+    <td class="team1 pow">A3 Freebirds</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 int">C4 Saturday Night Sets</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C1 Team Jimmy</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="15" class="week_row">Week 8: August 1st (Saturday)</td>
+  </tr>
+  <tr>
+    <td class="time">2:00 PM</td>
+
+    <td class="team1 pow">A1 Hot Ass Lucas</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A3 Freebirds</td>
+
+    <td class="team1 com">B1 Schweaty Balls</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B2 Bridge City Trolls</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B4 Junk Co</td>
+
+    <td class="team1 int">C1 Team Jimmy</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C2 Notorious DIG</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C4 Saturday Night Sets</td>
+  </tr>
+  <tr>
+    <td class="time">3:00 PM</td>
+
+    <td class="team1 pow">A2 Meat Reveal</td>
+    <td class="vs pow">vs</td>
+    <td class="team2 pow">A4 TBDeez Nutz</td>
+
+    <td class="team1 com">B5 Team Lucas</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B2 Bridge City Trolls</td>
+
+    <td class="team1 int">C5 The Ceebees ♥</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C2 Notorious DIG</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+  <tr>
+    <td class="time">4:00 PM</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td class="team1 com">B3 YellowJackets</td>
+    <td class="vs com">vs</td>
+    <td class="team2 com">B5 Team Lucas</td>
+
+    <td class="team1 int">C3 Pitt Reputation 🐍</td>
+    <td class="vs int">vs</td>
+    <td class="team2 int">C5 The Ceebees ♥</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+
+    <td colspan="3" class="open_play">OPEN PLAY</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+
+  <tr class="week">
+    <td></td>
+    <td colspan="3" class="playoff_week">Week 8: August 8th (Saturday)</td>
+	<td colspan="12"></td>
+  </tr>
+  <tr class="week">
+    <td colspan="16" class="maybe_play_week">PLAYOFFS - TBD</td>
+  </tr>
+
+  <tr class="spacer">
+    <td colspan="16" class="spacer_row"><div style="height: 20px;"></div></td>
+  </tr>
+</table>
+<br /><br /><br />
+
+<script>
+
+function showAll() {
+  // Get the schedule table element and it's rows
+  let table = document.getElementById("myTable");
+  let tr = table.getElementsByTagName("tr");
+  // Reset all hidden/highlighted rows/cols to make sure everything is shown
+  for (let row = 0; row < tr.length; row++) {
+    tr[row].style.display = "";
+    let td = tr[row].getElementsByTagName("td");
+    for (let col = 0; col < td.length; col++) {
+      if (td[col].classList.contains("highlighted")) {
+        td[col].classList.remove("highlighted");
+      }
+      if (td[col].classList.contains("hidden")) {
+        td[col].classList.remove("hidden");
+      }
+    }
+  }
+}
+
+// NOTE: We assume all of the params passed in are defined!
+function filterSchedule(firstTeam, showOpenPlay) {
+  // If SHOWALL is selected, just call showAll and exit early
+  if (firstTeam == "SHOWALL") {
+    showAll();
+    return;
+  }
+  
+  //console.log("Selected Team: ", firstTeam);
+
+  // Get the schedule table element and it's rows and iterate over them
+  let table = document.getElementById("myTable");
+  let tr = table.getElementsByTagName("tr");
+  for (let row = 0; row < tr.length; row++) {
+    // First check for row types that are always shown
+    const trClass = tr[row].className;
+    if (trClass == "header" || trClass == "week" || trClass == "spacer") {
+      // Since we never hide these rows, we don't need to unhide them either... just skip
+      continue;
+    }
+    // Next see if this row contains any mention of the selected filters
+    // For regular rows, we also need to keep track of what surrounding cols were in the same court
+    let highlightCols = [];
+    let displayCols = [];
+    let td = tr[row].getElementsByTagName("td");
+    // NOTE: We ignore column 0 (time column) because it's always shown and never highlighted
+    for (let col = 1; col < td.length; col++) {
+      if (td[col]) {
+        // We only care about team/bye/open_play/skills_clinic columns so ignore the rest
+        const clsList = td[col].classList;
+        const tdValue = td[col].textContent;
+		//console.log("tdValue = ", tdValue)
+        if (clsList.contains("team1")) {
+          if (tdValue == firstTeam) {
+            highlightCols.push(col);
+            displayCols.push(col, col + 1, col + 2);
+          }
+        } else if (clsList.contains("team2")) {
+          if (tdValue == firstTeam) {
+            highlightCols.push(col);
+            displayCols.push(col -2, col - 1, col);
+          }
+        } else {
+          // Lastly check for open play and skills clinic cols
+          if (clsList.contains("open_play") && showOpenPlay) {
+            displayCols.push(col);
+          }
+        }
+      }
+    }
+    // If displayCols is empty we can just hide the whole row
+    if (displayCols.length == 0) {
+      tr[row].style.display = "none";
+    } else {
+      // Make sure this row is unhidden in case it was previously hidden
+      tr[row].style.display = "";
+      // Now we can set or unset the hidden/highlighted classes for each col
+      // NOTE: We ignore column 0 (time column) because it's always shown and never highlighted
+      for (let col = 1; col < td.length; col++) {
+        // Highlight column if necessary
+        if (highlightCols.includes(col)) {
+          if (!td[col].classList.contains("highlighted")) {
+            td[col].classList.add("highlighted");
+          }
+        } else if (td[col].classList.contains("highlighted")) {
+          // Remove highlighting if previously highlighted
+          td[col].classList.remove("highlighted");
+        }
+        // For hiding/displaying cols, we need to know if it's a bye week row
+        const hiddenClsName = "hidden";
+        if (displayCols.includes(col)) {
+          // Unhide this col if necessary
+          if (td[col].classList.contains(hiddenClsName)) {
+            td[col].classList.remove(hiddenClsName);
+          }
+        } else if (!td[col].classList.contains(hiddenClsName)) {
+          // Make sure this col is hidden
+          td[col].classList.add(hiddenClsName);
+        }
+      }
+    }
+  }
+}
+
+function updateFilters() {
+  const firstTeam = document.getElementById("firstTeamSelect").value;
+  const showOpenPlay = document.getElementById("showOpenPlay").checked;
+  return filterSchedule(firstTeam, showOpenPlay);
+}
+
+function handleOptionalFiltersChange() {
+  const firstTeam = document.getElementById("firstTeamSelect").value;
+  const showOpenPlay = document.getElementById("showOpenPlay").checked;
+  return filterSchedule(firstTeam, showOpenPlay);
+}
+
+function handleFirstTeamSelectChange() {
+  return updateFilters();
+}</script>
+
+</body>
+</html>
